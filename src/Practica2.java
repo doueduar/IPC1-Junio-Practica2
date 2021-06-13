@@ -24,22 +24,27 @@ class Practica2 {
     int idPeliculaPrestada[] = new int[100];
     int idClienttePrestada[] = new int[100];
     int DiasPrestamo[] = new int[100];
+    //Mas prestadas
+    int contador[] = new int[100];
 
     public Practica2(){
         int n = 1;
         while(n!=0){
-            System.out.println("Arquiler de peliculas Memorabilia");
+            System.out.println("------------------Arquiler de peliculas Memorabilia---------------");
             System.out.println("1.ingresar cliente 2.ingresar pelicula 3.mostrar cliente 4.mostrar peliculas");
-            System.out.println("5.Prestar pelicula 6.Devolver pelicula 7.ordenar peliculas 8.reportes 0.salir");
+            System.out.println("5.Prestar pelicula 6.Devolver pelicula 7.ordenar peliculas 8.reportes");
+            System.out.print("9. mostrar prestamos 10.Salir");
             n = scanner.nextInt();
             switch (n) {
-                case 0:
+                case 10:
                     n=0;
                     break;
                 case 1:
+                    System.out.println("------------ingresar clientes----------------");
                     ingresarClientes();
                     break;
                 case 2:
+                    System.out.println("-------------ingresar peliculas----------------------");
                     ingresarPeliculas();
                     break;
                 case 3:
@@ -52,13 +57,16 @@ class Practica2 {
                     prestamoPelicula();
                     break;
                 case 6:
-                    
+                    devolucionPelicula();
                     break;
                 case 7:
                     
                     break;
                 case 8:
                     
+                    break;
+                case 9:
+                    mostrarPrestamos("Prestamos realizados");
                     break;
                       
                 default:
@@ -114,6 +122,7 @@ class Practica2 {
                System.out.print("Ingrese el año: ");
                ano[i] = scanner.nextInt();
                disponible[i] = true;
+               contador[i] = 0;
                System.out.println("se registro: "+idPelicula[i]+" nombre: "+pelicula[i]+" año: "+ano[i]+" categoria: "+categoria[i]+" disponible: "+disponible[i]);
                return;
             }else{
@@ -147,6 +156,15 @@ class Practica2 {
         }
         System.out.println("--------------------FIN-------------------------");
     }
+    public void mostrarPrestamos(String nombre){
+        System.out.println("----------------------------"+nombre+"---------------------------");
+        for (int i = 0; i < DiasPrestamo.length; i++) {
+            if (DiasPrestamo[i]!=0) {
+                System.out.println(i+". Cliente id."+idClienttePrestada[i]+"nombre: "+cliente[posicion(idClienttePrestada[i],idCliente)]+"Pelicula id."+idPeliculaPrestada[i]+" nombre: "+pelicula[posicion(idClienttePrestada[i],idPelicula)]);
+            }
+        }
+        System.out.println("------------------------FIN---------------------------");
+    }
     public void prestamoPelicula(){
         System.out.println("------------------Opcion de prestamo de pelicula-----------------");
         mostrarClientes("Clientes");
@@ -171,11 +189,12 @@ class Practica2 {
     public void prestar(int c, int p){
         if ((verificarID(c,idCliente)&&(verificarID(p, idPelicula)))) { 
             if ((estado(c,idCliente ,puedePrestarPelicula))&&(estado(p, idPelicula, disponible))) {
-                System.out.print("Aceptas prestar la pelicula: "+pelicula[posicion(p, idPelicula)]+" cliente: "+cliente[posicion(c, idCliente)]);
+                System.out.print("Aceptas prestar la pelicula: "+pelicula[posicion(p, idPelicula)]+" cliente: "+cliente[posicion(c, idCliente)]+": ");
                 int m = scanner.nextInt();
                 if (m == 1) {
                     puedePrestarPelicula[posicion(c,idCliente)]=false;
-                    disponible[posicion(p,idPelicula)]=false; 
+                    disponible[posicion(p,idPelicula)]=false;
+                    contador[posicion(p,idPelicula)] += 1; 
                     System.out.print("ingresar la cantidad de dias: ");
                     int dias = scanner.nextInt();
                     ingresarPrestamo(c,p,dias);
@@ -192,11 +211,46 @@ class Practica2 {
     }
     public void repetirPrestamo(String mensaje){
         System.out.println(mensaje);
-        System.out.println("desear ingresar otros valores 1/0");
+        System.out.print("desear ingresar otros valores 1/0");
             int n = scanner.nextInt();
             if (n==1) {
                 prestamoPelicula();
             }
+    }
+    public void devolucionPelicula(){
+        mostrarPrestamos("Devolución de peliculas");
+        System.out.print("ingresa la posicion: ");
+        int n = scanner.nextInt();
+        devolver(n);
+    }
+    public void devolver(int n){
+        if (DiasPrestamo[n]!=0) {
+            boolean a = disponible[posicion(idPeliculaPrestada[n],idPelicula)];
+            boolean b =puedePrestarPelicula[posicion(idClienttePrestada[n], idCliente)];
+            if ((!b)&&(!a)) {
+                a = true;
+                b = true;
+                idPeliculaPrestada[n] = 0;
+                idClienttePrestada[n] = 0;
+                DiasPrestamo[n] = 0;
+                ordenarprestamos();
+            }else{
+                System.out.println("error prestamo");
+            }
+        }
+    }
+    public void ordenarprestamos(){
+        for (int i = 0; i < DiasPrestamo.length; i++) {
+            int a = i+1;
+            if ((DiasPrestamo[i]==0)&&(DiasPrestamo[a]!=0)) {
+                idClienttePrestada[i] = idClienttePrestada[a];
+                idPeliculaPrestada[i] = idClienttePrestada[a];
+                DiasPrestamo[i] = DiasPrestamo[a];
+                idClienttePrestada[a]=0;
+                idPeliculaPrestada[a]=0;
+                DiasPrestamo[a]=0;
+            }
+        }
     }
     public boolean estado(int a, int b[], boolean c[]){
         if (c[posicion(a,b)] == true ) {
@@ -212,5 +266,8 @@ class Practica2 {
         }
         System.out.println("no existe");
         return 0;
+    }
+    public void reporte(){
+        
     }
 }
