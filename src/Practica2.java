@@ -68,8 +68,8 @@ class Practica2 {
                     System.out.println("--------------------------Reportes-----------------------------------");
                     cantidadCategoria();
                     cantidadPrestamo();
-                    masPrestado();
-                    menosPrestado();
+                    System.out.println("El mas prestado es: "+masPrestado());
+                    System.out.println("El menos prestado es: "+menosPrestado());
                     int s = 0;
                     System.out.print("Deseas buscar una cantidad de una categoria en especifico (1/0): ");
                     s =scanner.nextInt();
