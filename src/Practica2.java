@@ -48,7 +48,7 @@ class Practica2 {
                     ingresarPeliculas();
                     break;
                 case 3:
-                    mostrarClientes("--------------Mostrar clientes-------------");
+                    mostrarClientes("-----------------------Mostrar clientes-----------------------");
                     break;
                 case 4:
                     mostrarPeliculas("------------------Mostrar peliculas-------------------------");
@@ -180,7 +180,7 @@ class Practica2 {
         System.out.println("----------------------------"+nombre+"---------------------------");
         for (int i = 0; i < DiasPrestamo.length; i++) {
             if (DiasPrestamo[i]!=0) {
-                System.out.println(i+". Cliente id."+idClienttePrestada[i]+"nombre: "+cliente[posicion(idClienttePrestada[i],idCliente)]+"Pelicula id."+idPeliculaPrestada[i]+" nombre: "+pelicula[posicion(idClienttePrestada[i],idPelicula)]);
+                System.out.println(i+". Cliente id."+idClienttePrestada[i]+" nombre: "+cliente[posicion(idClienttePrestada[i],idCliente)]+" Pelicula id."+idPeliculaPrestada[i]+" nombre: "+pelicula[posicion(idClienttePrestada[i],idPelicula)]);
             }
         }
         System.out.println("------------------------FIN---------------------------");
@@ -248,8 +248,8 @@ class Practica2 {
             boolean a = disponible[posicion(idPeliculaPrestada[n],idPelicula)];
             boolean b =puedePrestarPelicula[posicion(idClienttePrestada[n], idCliente)];
             if ((!b)&&(!a)) {
-                a = true;
-                b = true;
+                disponible[posicion(idPeliculaPrestada[n],idPelicula)] = true;
+                puedePrestarPelicula[posicion(idClienttePrestada[n], idCliente)] = true;
                 idPeliculaPrestada[n] = 0;
                 idClienttePrestada[n] = 0;
                 DiasPrestamo[n] = 0;
@@ -262,13 +262,15 @@ class Practica2 {
     public void ordenarprestamos(){
         for (int i = 0; i < DiasPrestamo.length; i++) {
             int a = i+1;
-            if ((DiasPrestamo[i]==0)&&(DiasPrestamo[a]!=0)) {
-                idClienttePrestada[i] = idClienttePrestada[a];
-                idPeliculaPrestada[i] = idClienttePrestada[a];
-                DiasPrestamo[i] = DiasPrestamo[a];
-                idClienttePrestada[a]=0;
-                idPeliculaPrestada[a]=0;
-                DiasPrestamo[a]=0;
+            if (a<DiasPrestamo.length) {
+                if ((DiasPrestamo[i]==0)&&(DiasPrestamo[a]!=0)) {
+                    idClienttePrestada[i] = idClienttePrestada[a];
+                    idPeliculaPrestada[i] = idClienttePrestada[a];
+                    DiasPrestamo[i] = DiasPrestamo[a];
+                    idClienttePrestada[a]=0;
+                    idPeliculaPrestada[a]=0;
+                    DiasPrestamo[a]=0;
+                }
             }
         }
     }
