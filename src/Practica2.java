@@ -33,7 +33,7 @@ class Practica2 {
             System.out.println("------------------Arquiler de peliculas Memorabilia---------------");
             System.out.println("1.ingresar cliente 2.ingresar pelicula 3.mostrar cliente 4.mostrar peliculas");
             System.out.println("5.Prestar pelicula 6.Devolver pelicula 7.ordenar peliculas 8.reportes");
-            System.out.print("9. mostrar prestamos 10.Salir");
+            System.out.print("9. mostrar prestamos 10.Salir  ingrese la opción: ");
             n = scanner.nextInt();
             switch (n) {
                 case 10:
@@ -60,10 +60,34 @@ class Practica2 {
                     devolucionPelicula();
                     break;
                 case 7:
-                    
+                    System.out.println("---------------------------ordenar las peliculas-----------------------------------");
+                    ordenar();
+                    mostrarPeliculas("Ordenado las peliculas");
                     break;
                 case 8:
-                    
+                    System.out.println("--------------------------Reportes-----------------------------------");
+                    cantidadCategoria();
+                    cantidadPrestamo();
+                    masPrestado();
+                    menosPrestado();
+                    int s = 0;
+                    System.out.print("Deseas buscar una cantidad de una categoria en especifico (1/0): ");
+                    s =scanner.nextInt();
+                    if (s == 1) {
+                        verificarcategoria();
+                        for (int i = 0; i < tipocategoria.length; i++) {
+                            if (tipocategoria[i]!=null) {
+                                System.out.print(i+". "+tipocategoria[i]);
+                            }
+                        }
+                        System.out.print("\n ingresa que tipo de categoria: ");
+                        s = scanner.nextInt();
+                        if (tipocategoria[s]!=null) {
+                            categoriaCantidad(tipocategoria[s]);
+                        }else{
+                            System.out.println("no existe");
+                        }
+                    }
                     break;
                 case 9:
                     mostrarPrestamos("Prestamos realizados");
@@ -74,10 +98,6 @@ class Practica2 {
                     break;
             }
         }
-        ingresarClientes();
-        ingresarClientes();
-        ingresarPeliculas();
-        ingresarPeliculas();
     }
     public void ingresarClientes(){
         int n = 0;
@@ -267,6 +287,7 @@ class Practica2 {
         System.out.println("no existe");
         return 0;
     }
+    //menos prestado
     public int menosPrestado(){
         if (pelicula[0]!= null) {
             int minimo = contador[0];
@@ -287,7 +308,9 @@ class Practica2 {
             return 0;
         } 
     }
+    //mas prestado
     public int masPrestado(){
+        int n = 0;
         if (pelicula[0]!= null) {
             int maximo = contador[0];
             for (int i = 0; i < pelicula.length; i++) {
@@ -301,13 +324,16 @@ class Practica2 {
         }else{
             System.out.println("no hay peliculas ingresadas");
             return 0;
-        } 
+        }
     }
+    //cantidad de prestamos total
     public void cantidadPrestamo(){
         System.out.println("--------------------------cantidad de prestamos------------------------------------");
         for (int i = 0; i < pelicula.length; i++) {
             if (pelicula[i]!=null) {
-                System.out.println("Pelicula: "+pelicula[i]+" cantidad de prestamos: "+contador[i]);            
+                System.out.println("id."+idPelicula[i]+" Pelicula: "+pelicula[i]+" cantidad de prestamos: "+contador[i]);            
+            }else{
+                return;
             }
         }
     }
@@ -320,27 +346,78 @@ class Practica2 {
                     System.out.println(idPelicula[i]+". Pelicula: "+pelicula[i]);
                     ++n;
                 }
+            }else{
+                System.out.println("cantidad de la categoria "+tipo+" es: "+n);
+                return;
             }
         }
-        System.out.println("cantidad de la categoria "+tipo+" es: "+n);
     }
-    public void peliculasCategoria(){
-
+    //Muestra la cantidad de peliculas con las diferentes categorias
+    String [] tipocategoria = new String[20]; 
+    public boolean validarCategoria(String tipo){
+        for (int i = 0; i < tipocategoria.length; i++) {
+            if (tipocategoria[i]!=null) {
+                if (tipocategoria[i].equalsIgnoreCase(tipo)) {
+                    return true;
+                }
+            }else{
+                break;
+            }
+        }
+        return false;
     }
-    public void Categoria(){
-
+    //Muestra la cantidad de peliculas
+    public void cantidadCategoria(){
+        System.out.println("---------------------------Cantidad de categoria-------------------------------------");
+        verificarcategoria();
+        for (int i = 0; i < tipocategoria.length; i++) {
+            if (tipocategoria[i]!=null) {
+                categoriaCantidad(tipocategoria[i]);
+            }
+        }
     }
-    //darle posicion al objeto
+    public void agregar(String tipo){
+        int n = 0;
+        for (int i = 0; i < tipocategoria.length; i++) {
+            if (n<1) {
+                if (tipocategoria[i]==null) {
+                    tipocategoria[i] =tipo;
+                    ++n;
+                }
+            }else{
+                return;
+            }
+        }
+    }
+    public void verificarcategoria(){
+        for (int i = 0; i < categoria.length; i++) {
+            if (categoria[i]!= null) {
+                if(!validarCategoria(categoria[i])){
+                    agregar(categoria[i]);            
+                }
+            }
+        }
+        for (int i = 0; i < tipocategoria.length; i++) {
+            if (tipocategoria[i]!=null) {
+                System.out.print(tipocategoria[i]+" ");
+            }
+        }
+        System.out.print("\n");
+    }
+    //darle posicion a los string para luego ordenarlos
     public int pString(String dato){
         String abc[] = {" ","a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z"};
         for (int i = 0; i < abc.length; i++) {
+            System.out.print(abc[i]+" ");
             if (dato.equalsIgnoreCase(abc[i])) {
+                System.out.println(i);
                 return i;
             }
         }
         System.out.print("no existe este valor");
         return 0;
     }
+    //metodo de ordenamiento 
     public void ordenar(){
         mostrarPeliculas("Lista de peliculas");
         //metodo burbuja para ordenar
@@ -348,8 +425,8 @@ class Practica2 {
             if (pelicula[i]!=null) {
                 for (int j = 0; j < pelicula.length; j++) {
                     int a = 1+j;
-                    if (pelicula[i]!=null) {
-                        if (pString(pelicula[i].substring(0,1)) > pString(pelicula[a].substring(0,1))) {
+                    if ((pelicula[j]!=null)&&(pelicula[a]!=null)) {
+                        if (pString(pelicula[j].substring(0,1)) > pString(pelicula[a].substring(0,1))) {
                             int auxiid =0; String auxiNombre = ""; int auxiano = 0; String auxicategoria =" "; boolean auxiDisponible = false;
                             // ingreso de c = a
                             auxiid = idPelicula[j];
@@ -378,7 +455,6 @@ class Practica2 {
                 return;
             }
         }
-        mostrarPeliculas("Ordenado las peliculas");
     }
 
 }
