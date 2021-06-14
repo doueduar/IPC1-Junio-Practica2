@@ -267,7 +267,118 @@ class Practica2 {
         System.out.println("no existe");
         return 0;
     }
-    public void reporte(){
-        
+    public int menosPrestado(){
+        if (pelicula[0]!= null) {
+            int minimo = contador[0];
+            for (int i = 0; i < pelicula.length; i++) {
+                if (pelicula!=null) {
+                    if (contador[i]<minimo) {
+                        minimo = contador[i];
+                    }
+                }
+            }
+            if (minimo == 0) {
+                System.out.println(" No hay prestamos ");
+                return 0;
+            }
+            return minimo;
+        }else{
+            System.out.println("no hay peliculas ingresadas");
+            return 0;
+        } 
     }
+    public int masPrestado(){
+        if (pelicula[0]!= null) {
+            int maximo = contador[0];
+            for (int i = 0; i < pelicula.length; i++) {
+                if (pelicula!=null) {
+                    if (contador[i]>maximo) {
+                        maximo = contador[i];
+                    }
+                }
+            }
+            return maximo;
+        }else{
+            System.out.println("no hay peliculas ingresadas");
+            return 0;
+        } 
+    }
+    public void cantidadPrestamo(){
+        System.out.println("--------------------------cantidad de prestamos------------------------------------");
+        for (int i = 0; i < pelicula.length; i++) {
+            if (pelicula[i]!=null) {
+                System.out.println("Pelicula: "+pelicula[i]+" cantidad de prestamos: "+contador[i]);            
+            }
+        }
+    }
+    public void categoriaCantidad(String tipo){
+        System.out.println("Listado de una categoria: ");
+        int n = 0;
+        for (int i = 0; i < pelicula.length; i++) {
+            if (pelicula[i]!=null) {
+                if (categoria[i].equalsIgnoreCase(tipo)) {
+                    System.out.println(idPelicula[i]+". Pelicula: "+pelicula[i]);
+                    ++n;
+                }
+            }
+        }
+        System.out.println("cantidad de la categoria "+tipo+" es: "+n);
+    }
+    public void peliculasCategoria(){
+
+    }
+    public void Categoria(){
+
+    }
+    //darle posicion al objeto
+    public int pString(String dato){
+        String abc[] = {" ","a","b","c","d","e","f","g","h","i","j","k","l","m","n","ñ","o","p","q","r","s","t","u","v","w","x","y","z"};
+        for (int i = 0; i < abc.length; i++) {
+            if (dato.equalsIgnoreCase(abc[i])) {
+                return i;
+            }
+        }
+        System.out.print("no existe este valor");
+        return 0;
+    }
+    public void ordenar(){
+        mostrarPeliculas("Lista de peliculas");
+        //metodo burbuja para ordenar
+        for (int i = 0; i < pelicula.length; i++) {
+            if (pelicula[i]!=null) {
+                for (int j = 0; j < pelicula.length; j++) {
+                    int a = 1+j;
+                    if (pelicula[i]!=null) {
+                        if (pString(pelicula[i].substring(0,1)) > pString(pelicula[a].substring(0,1))) {
+                            int auxiid =0; String auxiNombre = ""; int auxiano = 0; String auxicategoria =" "; boolean auxiDisponible = false;
+                            // ingreso de c = a
+                            auxiid = idPelicula[j];
+                            auxiNombre = pelicula[j];
+                            auxiano = ano[j];
+                            auxicategoria = categoria[j];
+                            auxiDisponible = disponible[j];
+                            //ingreso de a = b
+                            idPelicula[j] = idPelicula[a];
+                            pelicula[j] = pelicula[a];
+                            ano[j] = ano[a];
+                            categoria[j]= categoria[a];
+                            disponible[j]= disponible[a];
+                            //ingreso de b = c
+                            idPelicula[a]=auxiid;
+                            pelicula[a]=auxiNombre;
+                            ano[a]=auxiano;
+                            categoria[a]=auxicategoria;
+                            disponible[a]=auxiDisponible;
+                        }   
+                    }else{
+                        break;
+                    }       
+                }
+            }else{
+                return;
+            }
+        }
+        mostrarPeliculas("Ordenado las peliculas");
+    }
+
 }
