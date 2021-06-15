@@ -68,8 +68,9 @@ class Practica2 {
                     System.out.println("--------------------------Reportes-----------------------------------");
                     cantidadCategoria();
                     cantidadPrestamo();
-                    System.out.println("El mas prestado es: "+masPrestado());
-                    System.out.println("El menos prestado es: "+menosPrestado());
+                    
+                    System.out.println("El mas prestado es: "+pelicula[posicion(masPrestado(),contador)]+" cantidad: "+masPrestado());
+                    System.out.println("El menos prestado es: "+pelicula[posicion(menosPrestado(), contador)]+" cantidad: "+menosPrestado());
                     int s = 0;
                     System.out.print("Deseas buscar una cantidad de una categoria en especifico (1/0): ");
                     s =scanner.nextInt();
@@ -180,7 +181,9 @@ class Practica2 {
         System.out.println("----------------------------"+nombre+"---------------------------");
         for (int i = 0; i < DiasPrestamo.length; i++) {
             if (DiasPrestamo[i]!=0) {
-                System.out.println(i+". Cliente id."+idClienttePrestada[i]+" nombre: "+cliente[posicion(idClienttePrestada[i],idCliente)]+" Pelicula id."+idPeliculaPrestada[i]+" nombre: "+pelicula[posicion(idClienttePrestada[i],idPelicula)]);
+                System.out.println(i+". Cliente id."+idClienttePrestada[i]+" nombre: "+cliente[posicion(idClienttePrestada[i],idCliente)]+" Pelicula id."+idPeliculaPrestada[i]+" nombre: "+pelicula[posicion(idPeliculaPrestada[i],idPelicula)]);
+            }else{
+                return;
             }
         }
         System.out.println("------------------------FIN---------------------------");
@@ -189,11 +192,11 @@ class Practica2 {
         System.out.println("------------------Opcion de prestamo de pelicula-----------------");
         mostrarClientes("Clientes");
         System.out.print("ingresa el id del cliente: ");
-        int n = scanner.nextInt();
+        int c = scanner.nextInt();
         mostrarPeliculas("Peliculas");
         System.out.print("ingresa el id de la pelicula si esta disponible: ");
-        int d = scanner.nextInt();
-        prestar(n,d);
+        int p = scanner.nextInt();
+        prestar(c,p);
     }
     public void ingresarPrestamo(int c, int p, int dias){
         for (int i = 0; i < idPeliculaPrestada.length; i++) {
@@ -265,7 +268,7 @@ class Practica2 {
             if (a<DiasPrestamo.length) {
                 if ((DiasPrestamo[i]==0)&&(DiasPrestamo[a]!=0)) {
                     idClienttePrestada[i] = idClienttePrestada[a];
-                    idPeliculaPrestada[i] = idClienttePrestada[a];
+                    idPeliculaPrestada[i] = idPeliculaPrestada[a];
                     DiasPrestamo[i] = DiasPrestamo[a];
                     idClienttePrestada[a]=0;
                     idPeliculaPrestada[a]=0;
